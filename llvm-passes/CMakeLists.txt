@@ -35,7 +35,7 @@ list(APPEND CMAKE_PREFIX_PATH "${LLVM_INSTALL_DIR}/lib/cmake/llvm/")
 
 find_package(LLVM REQUIRED CONFIG)
 message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
-message(STATUS "Using LLVMConfig.cmake in: ${LT_LLVM_INSTALL_DIR}")
+message(STATUS "Using LLVMConfig.cmake in: ${LLVM_INSTALL_DIR}")
 
 message("LLVM STATUS:
   Definitions ${LLVM_DEFINITIONS}
