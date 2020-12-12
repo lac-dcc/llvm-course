@@ -25,7 +25,7 @@
 #define ADD_CONST_H
 
 #include "llvm/IR/InstrTypes.h"
-#include <llvm/IR/PassManager.h>
+#include "llvm/IR/PassManager.h"
 
 namespace addconst {
 /// An analysis that traverses a function and collects all the "add"

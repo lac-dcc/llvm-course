@@ -22,7 +22,6 @@
 
 #include "AddConst.h"
 #include "llvm/IR/Constants.h"
-#include "llvm/IR/InstrTypes.h"
 #include "llvm/Support/Casting.h"
 
 using namespace llvm;
