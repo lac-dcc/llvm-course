@@ -44,11 +44,6 @@ struct AddConstAnalysis : public llvm::AnalysisInfoMixin<AddConstAnalysis> {
     static llvm::AnalysisKey Key;
 };
 
-/// Takes an instruction and checks whether its operands are constant or not.
-///
-/// \returns true if all operands are constant; otherwise, returns false.
-bool isConstantIntOnly(llvm::Instruction &I);
-
 /// A wrapper around AddAnalysis to be used with "opt -passes=" to print the
 /// collected add instructions.
 struct AddConstPrinterPass : public llvm::PassInfoMixin<AddConstPrinterPass> {

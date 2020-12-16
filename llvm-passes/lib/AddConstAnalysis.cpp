@@ -27,6 +27,18 @@
 using namespace llvm;
 
 namespace addconst {
+/// Takes an instruction and checks whether its operands are constant or not.
+///
+/// \returns true if all operands are constant; otherwise, returns false.
+bool isConstantIntOnly(Instruction &I) {
+    for (Use &Op : I.operands()) {
+        // Check if the operand is a constant integer:
+        if (!isa<ConstantInt>(Op)) return false;
+    }
+    // Return true if all operands are constant integer.
+    return true;
+}
+
 // Initialize the analysis key.
 AnalysisKey AddConstAnalysis::Key;
 
@@ -46,15 +58,6 @@ AddConstAnalysis::Result AddConstAnalysis::run(Function &F,
         }
     }
     return AddInsts;
-}
-
-bool isConstantIntOnly(Instruction &I) {
-    for (Use &Op : I.operands()) {
-        // Check if the operand is a constant integer:
-        if (!isa<ConstantInt>(Op)) return false;
-    }
-    // Return true if all operands are constant integer.
-    return true;
 }
 
 PreservedAnalyses AddConstPrinterPass::run(Function &F,

@@ -27,6 +27,33 @@
 
 using namespace llvm;
 
+/// Takes a FunctionAnalysisManager \p FAM and uses it to register all the
+/// analyses created, so any pass can request their results.
+void registerAnalyses(FunctionAnalysisManager &FAM) {
+    FAM.registerPass([] { return addconst::AddConstAnalysis(); });
+}
+
+/// Takes the \p Name of a transformation pass and check if it is the name of
+/// any of the passes implemented. If so, add it to the FunctionPassManager \p
+/// FPM.
+///
+/// \returns true if \p Name corresponds to any of the passes implemented;
+/// otherwise, returns false.
+bool registerPipeline(StringRef Name, FunctionPassManager &FPM,
+                      ArrayRef<PassBuilder::PipelineElement>) {
+    if (Name == "print<add-const>") {
+        FPM.addPass(addconst::AddConstPrinterPass(errs()));
+        return true;
+    }
+
+    if (Name == "add-const") {
+        FPM.addPass(addconst::AddConstPass());
+        return true;
+    }
+
+    return false;
+}
+
 PassPluginLibraryInfo getAddConstPluginInfo() {
     return {LLVM_PLUGIN_API_VERSION, "AddConst", LLVM_VERSION_STRING,
             [](PassBuilder &PB) {
@@ -35,30 +62,12 @@ PassPluginLibraryInfo getAddConstPluginInfo() {
                 // FPM.getResult<AddConstAnalysis>(F), where FPM is the
                 // FunctionAnalysisManager and F is the Function that shall be
                 // analyzed.
-                PB.registerAnalysisRegistrationCallback(
-                    [](FunctionAnalysisManager &FAM) {
-                        FAM.registerPass(
-                            [&] { return addconst::AddConstAnalysis(); });
-                    });
+                PB.registerAnalysisRegistrationCallback(registerAnalyses);
 
                 // 2: Register the AddConstPrinterPass as "print<add-const>" so
                 // that it can be used when specifying pass pipelines with
                 // "-passes=". Also register AddConstPass as "add-const".
-                PB.registerPipelineParsingCallback(
-                    [&](StringRef Name, FunctionPassManager &FPM,
-                        ArrayRef<PassBuilder::PipelineElement>) {
-                        if (Name == "print<add-const>") {
-                            FPM.addPass(addconst::AddConstPrinterPass(errs()));
-                            return true;
-                        }
-
-                        if (Name == "add-const") {
-                            FPM.addPass(addconst::AddConstPass());
-                            return true;
-                        }
-
-                        return false;
-                    });
+                PB.registerPipelineParsingCallback(registerPipeline);
             }};
 }
 
