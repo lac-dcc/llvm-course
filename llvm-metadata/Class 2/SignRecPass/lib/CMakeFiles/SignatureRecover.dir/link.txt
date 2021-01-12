@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC  -Wall    -fdiagnostics-color=always -fno-rtti -fvisibility-inlines-hidden -g  -shared  -o libSignatureRecover.so CMakeFiles/SignatureRecover.dir/SignatureRecover.cpp.o   -L/home/jw/llvm-10/build/./lib 
