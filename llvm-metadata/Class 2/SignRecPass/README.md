@@ -1,17 +1,17 @@
 # LLVM Signature Recover Pass
 
 ## Description
-TODO
+This is an LLVM pass that reconstructs signature of functions using LLVM debug information. 
 
 ## Requirements
-TODO
+LLVM + Clang version 10.0.0 or greater.
 
 ## Build
 Define a set of path variables:
 
 ```bash
 $ LLVM_INSTALL_DIR=</path/to/llvm/>
-$ LLVM_OPT=</path/to/opt>
+$ LLVM_BIN=</path/to/llvm/bin>
 ```
 
 For instance, if you built LLVM from source the commands above
@@ -19,7 +19,7 @@ will be like:
 
 ```bash
 $ LLVM_INSTALL_DIR=/path/to/llvm-project/build
-$ LLVM_OPT=$LLVM_INSTALL_DIR/bin/opt
+$ LLVM_BIN=$LLVM_INSTALL_DIR/bin
 ```
 
 
@@ -47,13 +47,12 @@ follow the commands below:
 
 ```bash
 $ cd example
-$ $LLVM/clang -g -emit-llvm Linked_List.c -o Linked_List.bc
-$ $LLVM/opt -load ../build/lib/libSignatureRecovert.so \
-$   -recsign -disable-output Linked_List.bc
+$ $LLVM_BIN/clang -g -emit-llvm Linked_List.c -o Linked_List.bc
+$ $LLVM_BIN/opt -load ../build/lib/libSignatureRecovert.so -recsign -disable-output Linked_List.bc
 ```
 If you want to visualize the IR, run llvm disassembler:
 ```bash
-$ $LLVM/llvm-dis Linked_List.bc
+$ $LLVM_BIN/llvm-dis Linked_List.bc
 ```
 The file *Linked_List.ll* contains human-readable IR.
 
