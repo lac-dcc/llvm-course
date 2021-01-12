@@ -39,7 +39,7 @@ void SignatureRecover::detailUDType(DIType* UDType){
       errs() << "enum ";
     
     errs() << UDType->getName() <<"\n";
-    errs() << "Elements: \n";
+    errs() << " Elements: \n";
     
     DINodeArray Elements = Composite->getElements();
     for(unsigned i = 0; i < Elements.size(); i++){
@@ -117,9 +117,8 @@ void SignatureRecover::analyzeDebugType(DIType* DIT){
     if(Composite->getTag() == dwarf::DW_TAG_array_type)
       errs() << "array of ";
     
-    if(Composite->getTag() == dwarf::DW_TAG_structure_type || Composite->getTag() == dwarf::DW_TAG_union_type){
+    if(Composite->getTag() == dwarf::DW_TAG_structure_type || Composite->getTag() == dwarf::DW_TAG_union_type || Composite->getTag() == dwarf::DW_TAG_enumeration_type)
       errs() << Composite->getName() <<"\n";
-    }
   }
   
   /*if(DISubroutineType* STR = dyn_cast<DISubroutineType>(DIT))
@@ -141,7 +140,7 @@ void SignatureRecover::analyzeSubprogram(DISubprogram* DIS){
       }
     }
     else
-      errs() << "Param " << std::to_string(i) << " type: ";
+      errs() << "Argument " << std::to_string(i) << " type: ";
     
     analyzeDebugType(FuncTypes[i]);
   }
@@ -153,7 +152,11 @@ void SignatureRecover::analyzeSubprogram(DISubprogram* DIS){
 bool SignatureRecover::runOnModule(Module &M){
   DebugInfoFinder DBF;
   DBF.processModule(M);
-  errs() << "****************************************************************************\n";
+  errs() << "****************************************************************************\n";  
+  
+  for(DISubprogram* DIS : DBF.subprograms())
+    analyzeSubprogram(DIS);
+  
   errs() << "User defined types:\n";
   for(DIType* DIT : DBF.types()){
     if(DIDerivedType* Derived = dyn_cast<DIDerivedType>(DIT)){
@@ -164,10 +167,6 @@ bool SignatureRecover::runOnModule(Module &M){
     if(isa<DICompositeType>(DIT))
       detailUDType(DIT);
   }
-  
-  
-  for(DISubprogram* DIS : DBF.subprograms())
-    analyzeSubprogram(DIS);
   
   return false;
   

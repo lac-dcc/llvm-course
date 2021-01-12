@@ -47,9 +47,32 @@ class SignatureRecover : public llvm::ModulePass {
 
 	private:
 
+	/**
+		* This methods prints information about a user-defined type. It access every field
+		* and prints their names and types.
+		* @param Output_File_Ptr is the pointer to the type of the output file.
+		*/
 	void detailUDType(llvm::DIType* UDType);
+
+	/**
+		* This methods returns a string containing the name of a basic debug type. It uses
+		* the DWARF tag of the LLVM Debug type to identify it. 
+		* @param DwarfTag is the dwarf tag that identifies a Debug type.
+		* @return a string corresponding to name of the type.
+		*/
 	std::string getBasicTypeStr(unsigned DwarfTag);
+
+	/**
+		* This methods prints information about a LLVM Debug type. 
+		* @param DIT is the debug type to be inspected.
+		*/
 	void analyzeDebugType(llvm::DIType* DIT);
+
+	/**
+		* This methods analyzes a subprogram. It prints its name and call methods to inspect the
+	  * arguments of such subprogram (function).
+		* @param DIS is the subprogram to be analyzed.
+		*/
 	void analyzeSubprogram(llvm::DISubprogram* DIS);
 };
 
