@@ -6,3 +6,5 @@
     
 - `LLVM-metadata`: suite of examples of llvm passes that manipulate
     metadata.
+
+- `clang-plugins`: suite of examples of clang plugins.
