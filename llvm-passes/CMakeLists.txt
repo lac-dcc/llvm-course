@@ -2,7 +2,7 @@
 # See: https://github.com/banach-space/llvm-tutor/blob/master/CMakeLists.txt
 #===============================================================================
 cmake_minimum_required(VERSION 3.13.4)
-project(addconst)
+project(llvm-addconst)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -80,7 +80,7 @@ if (${SUPPORTS_FVISIBILITY_INLINES_HIDDEN_FLAG} EQUAL "1")
 endif()
 
 # Set the build directories
-# set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
 
 #===============================================================================
@@ -88,5 +88,5 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
 # Doing this at the end so that all definitions and link/include paths are
 # available for the sub-projects.
 #===============================================================================
-# add_subdirectory(tool)
 add_subdirectory(lib)
+add_subdirectory(tool)
