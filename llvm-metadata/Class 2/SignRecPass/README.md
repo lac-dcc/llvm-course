@@ -30,7 +30,7 @@ want, e.g. ninja or make.
 ```bash
 $ mkdir build
 $ cd build
-$ cmake -DLLVM_INSTALL_DIR=$LLVM_INSTALL_DIR
+$ cmake -DLLVM_INSTALL_DIR=$LLVM_INSTALL_DIR ../
 ```
 
 Next, build the project:
