@@ -1,4 +1,4 @@
-# LLVM Signature Recover Pass
+# LLVM Variable Tracking Pass
 
 ## Description
 This is an LLVM pass that track variable assignments in the IR LLVM debug information. 
