@@ -25,6 +25,7 @@
 #include "AddConst.h"
 #include "llvm/IR/Function.h"
 #include "llvm/IR/PassManager.h"
+#include "llvm/IR/Constants.h"
 
 using namespace llvm;
 

@@ -25,6 +25,11 @@
 #include "llvm/IRReader/IRReader.h"
 #include "llvm/Passes/PassBuilder.h"
 #include "llvm/Support/CommandLine.h"
+#include "llvm/Support/ManagedStatic.h"
+#include "llvm/IR/Module.h"
+#include "llvm/IR/Function.h"
+
+
 
 using namespace llvm;
 
@@ -72,7 +77,8 @@ int main(int Argc, char **Argv) {
     // Create a FunctionPassManager and add the AddConstPass to it:
     addconst::AddConstPass Pass;
     FunctionPassManager FPM;
-    FPM.addPass(Pass);
+    FPM.addPass(std::move(Pass));
+    
 
     // Create a FunctionAnalysisManager and add the AddConstAnalysis to it:
     FunctionAnalysisManager FAM;
